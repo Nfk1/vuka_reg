@@ -13,21 +13,25 @@
   padding:0;
 }
 .back {
-  background: linear-gradient(90deg, #010d7a 0%, #5c7ef5 25%, #010d7a 50%, #5c7ef5 75%, #010d7a 100%);
-  background-size: 300% 300%;
-  animation: sharpGradientShift 8s linear infinite;
+ody {
+  background: linear-gradient(270deg, #010d7a, #3a44a6, #5c7ef5, #3a44a6, #010d7a);
+  background-size: 1000% 1000%;
+  animation: smoothGradient 20s ease infinite;
 
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
-@keyframes sharpGradientShift {
+@keyframes smoothGradient {
   0% {
     background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
   100% {
-    background-position: 200% 50%;
+    background-position: 0% 50%;
   }
 }
 .registration-form {
@@ -371,6 +375,7 @@ $(function () {
 </body>
 
 </html>
+
 
 
 
