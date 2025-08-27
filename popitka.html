@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <style>
+    body {
+  font-family: "Roboto";
+}
+.back {
+  background: linear-gradient(120deg, rgb(100, 57, 134), rgb(152, 174, 213));
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.registration-form {
+  width: 400px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  top: 15%;
+  background: transparent;
+}
+.registration-form header {
+  position: relative;
+  z-index: 4;
+  background: white;
+  padding: 20px 40px;
+  border-radius: 15px 15px 0 0;
+}
+.registration-form header h1 {
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #333;
+  font-size: 23px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.registration-form header p {
+  word-spacing: 0px;
+  color: rgb(159, 172, 182);
+  font-size: 17px;
+  margin: 0;
+  margin-top: 5px;
+}
+.registration-form form {
+  position: relative;
+}
+.input-section {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 75px;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in;
+}
+.input-section.folded {
+  width: 95%;
+  margin-top: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1;
+}
+.input-section.folded input {
+  background-color: rgb(233, 226, 192);
+}
+.input-section.folded span {
+  background-color: rgb(233, 226, 192);
+}
+.input-section.folded + .folded {
+  width: 90%;
+  margin-top: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 0;
+}
+.input-section.folded + .folded input {
+  background-color: rgb(225, 188, 239);
+}
+.input-section.folded + .folded span {
+  background-color: rgb(225, 188, 239);
+}
+.input-section.fold-up {
+  margin-top: -75px;
+}
+.registration-form form input {
+  background: rgb(255, 255, 255); /* lighten(rgb(243,243,251),5%) примерно белый, светлый */
+  /* Т.к. чистый lighten не поддерживается в CSS, взял белый, или можно заменить на #f8f8ff */
+  color: rgb(143, 143, 214);
+  width: 80%;
+  border: 0;
+  padding: 20px 40px;
+  margin: 0;
+}
+.registration-form form input:focus {
+  outline: none;
+}
+.registration-form form input::placeholder {
+  color: rgb(143, 143, 214);
+  font-weight: 100;
+}
+.animated-button {
+  position: relative;
+  width: 20%;
+  background-color: rgb(212, 212, 255);
+  
+}
+.animated-button span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  line-height: 75px;
+  text-align: center;
+  height: 75px;
+  transition: all 0.2s ease-in;
+  width: 100%;
+}
+.animated-button span i {
+  font-size: 25px;
+  color: rgb(153, 153, 248);
+}
+.animated-button .next-button {
+  background: transparent;
+  color: rgb(153, 153, 248);
+  font-weight: 100;
+  width: 100%;
+  border: 0;
+}
+.next {
+  margin-top: -75px;
+}
+.success {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 75px;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in;
+  background: limegreen;
+  margin-top: -75px;
+}
+.success p {
+  color: white;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+}
+.animated-button span {
+  position: relative;    /* чтобы z-index заработал */
+  z-index: 1;            /* базовый уровень */
+}
+
+.icon-paper-plane {
+  position: relative;
+  z-index: 10;         
+    /* выше, чтобы иконка была сверху */
+}
+
+.icon-lock {
+  position: relative;
+  z-index: 5;
+}
+
+
+.icon-repeat-lock {
+  position: relative;
+  z-index: 5;
+}
+.fa-envelope-o{
+  position: relative;
+  z-index: 5;
+}
+.animated-button svg {
+  width: 32px;    /* уже в HTML есть, но лучше продублировать */
+  height: 32px;
+  display: block;
+   
+}
+
+  </style>
+</head>
+<body>
+<div class="back">
+  <div class="registration-form">
+    <header>
+      <h1>Sign Up</h1>
+      <p>Fill in all informations</p>
+    </header>
+    <form>
+      <div class="input-section email-section">
+        <input
+          type="email"
+          placeholder="ENTER YOUR E-MAIL HERE"
+          autocomplete="off"
+          class="email"
+        />
+        <div class="animated-button">
+          <span class="icon-paper-plane">
+            <i class="fa-envelope-o">
+              <svg viewBox="0 0 512 512" width="35" title="envelope">
+  <path fill="rgb(153, 153, 248)" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z" />
+</svg>
+            </i>
+          </span>
+          <span class="next-button email">
+            <i class="fa-arrow-up">
+              <svg  viewBox="0 0 448 512" width="35" title="arrow-up">
+  <path fill="rgb(153, 153, 248)" d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z" />
+</svg>
+            </i>
+          </span>
+        </div>
+      </div>
+
+      <div class="input-section password-section folded">
+        <input
+          type="password"
+          placeholder="ENTER YOUR PASSWORD HERE"
+          class="password"
+        />
+        <div class="animated-button">
+          <span class="icon-lock">
+            <i class="fa-lock">
+               <svg viewBox="0 0 448 512" width="35" title="lock">
+  <path fill="rgb(153, 153, 248)" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z" />
+</svg>
+            </i>
+          </span>
+          <span class="next-button password">
+            <i class="fa-arrow-up">
+              <svg  viewBox="0 0 448 512" width="35" title="arrow-up">
+  <path fill="rgb(153, 153, 248)" d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z" />
+</svg>
+            </i>
+          </span>
+        </div>
+      </div>
+
+      <div class="input-section repeat-password-section folded">
+        <input
+          type="password"
+          placeholder="REPEAT YOUR PASSWORD HERE"
+          class="repeat-password"
+        />
+        <div class="animated-button">
+          <span class="icon-repeat-lock">
+            <i class="fa-lock">
+              <svg viewBox="0 0 448 512" width="35" title="lock">
+  <path fill="rgb(153, 153, 248)" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z" />
+</svg>
+            </i>
+          </span>
+          <span class="next-button repeat-password">
+            <i class="fa-paper-plane">
+              <svg viewBox="0 0 512 512" width="35" title="paper-plane">
+  <path fill="rgb(153, 153, 248)" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z" />
+</svg>
+            </i>
+          </span>
+        </div>
+      </div>
+
+      <div class="success">
+        <p>ACCOUNT CREATED</p>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+$(function () {
+  // Подсветка иконки и активация кнопки для email
+  $('.email').on('input change paste', function () {
+    if ($(this).val().trim()) {
+      $('.icon-paper-plane').addClass('next');
+    } else {
+      $('.icon-paper-plane').removeClass('next');
+    }
+  });
+
+  // Курсор pointer на кнопках next при ховере
+  $('.next-button').hover(function () {
+    $(this).css('cursor', 'pointer');
+  });
+
+  // Нажатие на кнопку next для email — перейти к вводу пароля
+  $('.next-button.email').on('click', function () {
+    if ($('.email').val().trim() === '') return; // не идти дальше, если пусто
+    $('.email-section').addClass('fold-up');
+    $('.password-section').removeClass('folded');
+    $('.password').focus();
+  });
+
+  // Подсветка иконки и активация кнопки для password
+  $('.password').on('input change paste', function () {
+    if ($(this).val().trim()) {
+      $('.icon-lock').addClass('next');
+    } else {
+      $('.icon-lock').removeClass('next');
+    }
+  });
+
+  // Нажатие на кнопку next для пароля — перейти к вводу повторного пароля
+  $('.next-button.password').on('click', function () {
+    if ($('.password').val().trim() === '') return;
+    $('.password-section').addClass('fold-up');
+    $('.repeat-password-section').removeClass('folded');
+    $('.repeat-password').focus();
+  });
+
+  // Подсветка иконки и активация кнопки для повторного пароля
+  $('.repeat-password').on('input change paste', function () {
+    if ($(this).val().trim()) {
+      $('.icon-repeat-lock').addClass('next');
+    } else {
+      $('.icon-repeat-lock').removeClass('next');
+    }
+  });
+
+  // Нажатие на кнопку next для повторного пароля — показать сообщение об успехе
+  $('.next-button.repeat-password').on('click', function () {
+    if ($('.repeat-password').val().trim() === '') return;
+
+    // Тут можно добавить проверку совпадения паролей
+    // например:
+    // if ($('.password').val() !== $('.repeat-password').val()) {
+    //    alert('Пароли не совпадают');
+    //    return;
+    // }
+
+    $('.repeat-password-section').addClass('fold-up');
+    $('.success').css('marginTop', '0');
+  });
+});
+
+</script>
+</body>
+</html>
